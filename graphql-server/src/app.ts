@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 require('dotenv').config();
 import express, {Request, Response} from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import {notFound, errorHandler} from './middlewares';
 import {MessageResponse} from '@sharedTypes/MessageTypes';
-import {ApolloServer} from '@Apollo/server';
+import {ApolloServer} from '@apollo/server';
 import {expressMiddleware} from '@apollo/server/express4';
 import typeDefs from './api/schemas/index';
 import resolvers from './api/resolvers/index';
@@ -20,7 +19,6 @@ import {
   constraintDirectiveTypeDefs,
   createApollo4QueryValidationPlugin,
 } from 'graphql-constraint-directive/apollo4';
-
 
 const app = express();
 
@@ -37,6 +35,7 @@ const app = express();
       res.send({message: 'Server is running'});
     });
 
+    // create executable schema for validation
     const schema = makeExecutableSchema({
       typeDefs: [constraintDirectiveTypeDefs, typeDefs],
       resolvers,
@@ -56,11 +55,11 @@ const app = express();
 
     app.use(
       '/graphql',
-      cors<cors.CorsRequest>(),
+      cors(),
       express.json(),
       expressMiddleware(server, {
         context: ({req}) => authenticate(req),
-      })
+      }),
     );
 
     app.use(notFound);

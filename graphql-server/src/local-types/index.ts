@@ -8,4 +8,4 @@ type MyContext = {
   user?: UserFromToken;
 };
 
-export type {MyContext, UserFromToken};
+export {MyContext, UserFromToken};
